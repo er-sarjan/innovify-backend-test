@@ -1,13 +1,27 @@
 import jwt from 'jsonwebtoken';
+import _ from 'lodash';
 import httpStatus from 'http-status';
 import APIError from '../helpers/APIError';
 import config from '../../config/config';
 
 // sample user, used for authentication
-const user = {
+const users = [{
+  _id: '507f191e810c19729de860ea',
   username: 'react',
-  password: 'express'
-};
+  password: 'express',
+  role: 'user'
+}, {
+  _id: '507f1f77bcf86cd799439011',
+  username: 'angular',
+  password: 'universal',
+  role: 'admin'
+}, {
+  _id: '5349b4ddd2781d08c09890f4',
+  username: 'vue',
+  password: 'another',
+  role: 'tester'
+}];
+
 
 /**
  * Returns jwt token if valid username and password is provided
@@ -19,13 +33,20 @@ const user = {
 function login(req, res, next) {
   // Ideally you'll fetch this from the db
   // Idea here was to show how jwt works with simplicity
-  if (req.body.username === user.username && req.body.password === user.password) {
+  const user = _.chain(users)
+    .filter({ username: req.body.username, password: req.body.password })
+    .head()
+    .value();
+  if (user) {
     const token = jwt.sign({
-      username: user.username
+      username: user.username,
+      _id: user._id,
+      role: user.role
     }, config.jwtSecret);
     return res.json({
       token,
-      username: user.username
+      username: user.username,
+      _id: user._id
     });
   }
 
