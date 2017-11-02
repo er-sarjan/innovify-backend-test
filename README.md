@@ -175,3 +175,16 @@ Your support is greatly appreciated.
 
 Kunal Kapadia – [@kunalkapadia12](https://twitter.com/KunalKapadia12) – kunalkapadia12@gmail.com
 
+## README for Test
+- Start project using `yarn start` (Install dependency and start mongodb)
+- Navigate to [Postman collection](https://documenter.getpostman.com/view/692927/express-mongoose-es6-rest-api/77h5N9M)
+- Import collection (Description contains different credentials for different users with different roles)
+- Verify functionality of test
+
+Note:
+  
+  admin role can create article with any valid user id.
+  
+  user role (should change to guest) can create article with it's own id (Id in create article request body should be same as _id from login response for user role)
+  
+  test role is not allowed to create article at all
